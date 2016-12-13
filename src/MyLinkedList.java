@@ -3,9 +3,9 @@ import java.util.Iterator;
 /**
  * Created by lWeRl on 13.12.2016.
  */
-public class MyLinkedList<T> implements Iterable<T> {
-    private Node<T> first;
-    private Node<T> last;
+public class MyLinkedList<E> implements Iterable<E> {
+    private Node<E> first;
+    private Node<E> last;
     private int length;
     private int half_length;
 
@@ -16,8 +16,8 @@ public class MyLinkedList<T> implements Iterable<T> {
         half_length = 0;
     }
 
-    private Node<T> search(int pos) {
-        Node<T> temp;
+    private Node<E> search(int pos) {
+        Node<E> temp;
         if (pos <= half_length) {
             temp = first;
             for (int i = 0; i < pos; i++) {
@@ -32,11 +32,11 @@ public class MyLinkedList<T> implements Iterable<T> {
         return temp;
     }
 
-    public T getFirst() {
+    public E getFirst() {
         return first.getValue();
     }
 
-    public T getLast() {
+    public E getLast() {
         return last.getValue();
     }
 
@@ -44,8 +44,8 @@ public class MyLinkedList<T> implements Iterable<T> {
         return length;
     }
 
-    public void add(T value) {
-        Node<T> temp = new Node<>(value);
+    public void add(E value) {
+        Node<E> temp = new Node<>(value);
         if (first == null) {
             temp.setNext(null);
             temp.setPrev(null);
@@ -62,10 +62,10 @@ public class MyLinkedList<T> implements Iterable<T> {
         }
     }
 
-    public void insert(T value, int pos) {
+    public void insert(E value, int pos) {
         if (pos < 0 || pos > length - 1) throw new IndexOutOfBoundsException(("" + pos));
-        Node<T> temp = new Node<>(value);
-        Node<T> curr = search(pos);
+        Node<E> temp = new Node<>(value);
+        Node<E> curr = search(pos);
         temp.setPrev(curr.getPrev());
         temp.setNext(curr);
         if (curr != first) curr.getPrev().setNext(temp);
@@ -77,7 +77,7 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     public void delete(int pos) {
         if (pos < 0 || pos > length - 1) throw new IndexOutOfBoundsException(("" + pos));
-        Node<T> temp = search(pos);
+        Node<E> temp = search(pos);
         if (temp == first) {
             first = temp.getNext();
             first.setPrev(null);
@@ -96,8 +96,8 @@ public class MyLinkedList<T> implements Iterable<T> {
 
     public void reverse() {
         if (length == 0) return;
-        Node<T> curr = first;
-        Node<T> temp;
+        Node<E> curr = first;
+        Node<E> temp;
         last = curr;
         while (true) {
             temp = curr.getNext();
@@ -109,12 +109,12 @@ public class MyLinkedList<T> implements Iterable<T> {
         first = curr;
     }
 
-    public T get(int pos) {
+    public E get(int pos) {
         if (pos < 0 || pos > length - 1) throw new IndexOutOfBoundsException(("" + pos));
         return search(pos).getValue();
     }
 
-    public void update(T value, int pos) {
+    public void update(E value, int pos) {
         if (pos < 0 || pos > length - 1) throw new IndexOutOfBoundsException(("" + pos));
         search(pos).setValue(value);
     }
@@ -125,16 +125,15 @@ public class MyLinkedList<T> implements Iterable<T> {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private class MyLinkedListIterator implements Iterator<T> {
-        MyLinkedList<T> list;
+    private class MyLinkedListIterator implements Iterator<E> {
+        MyLinkedList<E> list;
         boolean newFlag = true;
 
-
-        MyLinkedListIterator(MyLinkedList<T> list) {
+        MyLinkedListIterator(MyLinkedList<E> list) {
             this.list = list;
         }
 
-        private Node<T> temp;
+        private Node<E> temp;
 
         @Override
         public boolean hasNext() {
@@ -144,7 +143,7 @@ public class MyLinkedList<T> implements Iterable<T> {
         }
 
         @Override
-        public T next() {
+        public E next() {
             if (newFlag) {
                 newFlag = false;
                 temp = first;
